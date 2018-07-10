@@ -26,6 +26,10 @@ app.use(cookieParser());
 // validated access token
 app.use(authentication.oAuth);
 
+
+app.use('/machines', require('./routes/machines'));
+app.use('/materials', require('./routes/materials'));
+
 // parse schema validation errors
 app.use(schemaValidation);
 

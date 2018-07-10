@@ -26,6 +26,8 @@ self.OAUTH_CREDENTIALS = {
     CLIENT_SECRET: ''
 };
 
-self.TECHNOLOGY_UUID = 'da17a8fc-a5b3-40a4-b6a5-276667db027a';
+self.TECHNOLOGY_UUID = 'adb4c297-45bd-437e-ac90-2aed14f6b882';
+self.MACHINE_ATR_UUID = 'adb4c297-45bd-437e-ac90-fd6d0660d0f4';
+self.MATERIAL_ATR_UUID = 'adb4c297-45bd-437e-ac90-19442dfd4eb8';
 
 module.exports = self;

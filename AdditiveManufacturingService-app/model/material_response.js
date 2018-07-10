@@ -2,9 +2,11 @@
  * Created by beuttlerma on 21.02.17.
  */
 
-function MaterialResponse(id, name) {
+function MaterialResponse(id, name, description, color) {
     this.id = id;
     this.name = name;
+    this.description = description;
+    this.color = color;
 }
 
 /**
@@ -19,7 +21,12 @@ MaterialResponse.CreateFromJSON = MaterialResponse.prototype.CreateFromJSON = fu
         return null;
     }
 
-    return new MaterialResponse(jsonData['id'], jsonData['name']);
+    return new MaterialResponse(
+        jsonData['componentuuid'],
+        jsonData['componentname'],
+        jsonData['componentdescription'],
+        jsonData['displaycolor']
+    );
 };
 
 module.exports = MaterialResponse;
