@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const logger = require('../global/logger');
 const marketplaceCore = require('../adapter/marketplace_core_adapter');
+const helper = require('../services/helper_service');
+const CONFIG = require('../config/config_loader');
 
 const Validator = require('express-json-validator-middleware').Validator;
 const validator = new Validator({allErrors: true});
@@ -27,6 +29,52 @@ router.get('/', validate({
     })
 });
 
+router.get('/:id/binary', validate({
+    query: validation_schema.GetBinary_Query,
+    body: validation_schema.Empty
+}), function (req, res, next) {
+    marketplaceCore.getBinaryForObjectWithId(req.token['accessToken'], req.params['id'], req.query['offerId'], (err, binary) => {
+        if (err) {
+            if (err.statusCode >= 500) {
+                return next(err);
+            }
+            return res.sendStatus(err.statusCode);
+        }
 
+        res.json(binary);
+    });
+});
+
+router.post('/', validate({
+    query: validation_schema.Empty,
+    body: validation_schema.SaveObject_Body
+}), function (req, res, next) {
+
+    const coreData = {};
+
+    coreData.technologyDataName = req.body['title'];
+    coreData.technologyData = req.body['encryptedBinary'];
+    coreData.technologyDataDescription = req.body['description'];
+    coreData.technologyUUID = CONFIG.TECHNOLOGY_UUID;
+    coreData.licenseFee = req.body['licenseFee'];
+    coreData.componentList = req.body['components'];
+    coreData.backgroundColor = req.body['backgroundColor'];
+    coreData.image = req.body['image'];
+
+    marketplaceCore.saveObject(req.user.token, coreData, (err, objectId) => {
+
+        if (err) {
+            if (err.statusCode === 409) {
+                res.status(409);
+                return res.send('Already exists');
+            }
+            return next(err);
+        }
+
+        const fullUrl = helper.buildFullUrlFromRequest(req);
+        res.set('Location', fullUrl + 'recipes/' + objectId);
+        res.sendStatus(201);
+    });
+});
 
 module.exports = router;

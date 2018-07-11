@@ -7,7 +7,7 @@ const marketplaceCore = require('../adapter/marketplace_core_adapter');
 const Validator = require('express-json-validator-middleware').Validator;
 const validator = new Validator({allErrors: true});
 const validate = validator.validate;
-const validation_schema = require('../schema/machine_type_schema');
+const validation_schema = require('../schema/machines_schema');
 
 router.get('/', validate({
     query: validation_schema.Type_Query,

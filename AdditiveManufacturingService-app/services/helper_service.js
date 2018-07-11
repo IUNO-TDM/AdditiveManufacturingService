@@ -31,5 +31,9 @@ self.shuffleArray = function (a) {
     return a;
 };
 
+self.buildFullUrlFromRequest = function (req) {
+    return req.protocol + '://' + req.get('host') + req.baseUrl + '/';
+};
+
 
 module.exports = self;

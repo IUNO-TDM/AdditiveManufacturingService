@@ -129,5 +129,69 @@ self.getAllObjects = function(accessToken, language, machines, materials, callba
 
 };
 
+self.getBinaryForObjectWithId = function (accessToken, objectId, offerId, callback) {
+    if (typeof(callback) !== 'function') {
+
+        callback = function () {
+            logger.info('Callback not registered');
+        }
+    }
+
+    const options = buildOptionsForRequest(
+        'GET',
+        CONFIG.HOST_SETTINGS.MARKETPLACE_CORE.PROTOCOL,
+        CONFIG.HOST_SETTINGS.MARKETPLACE_CORE.HOST,
+        CONFIG.HOST_SETTINGS.MARKETPLACE_CORE.PORT,
+        `/technologydata/${objectId}/content`,
+        {
+            offerId: offerId
+        }
+    );
+    options.headers.authorization = 'Bearer ' + accessToken;
+
+    request(options, function (e, r, binary) {
+
+        const err = logger.logRequestAndResponse(e, options, r, binary);
+
+        callback(err, binary);
+    });
+};
+
+self.saveObject = function (token, objectData, callback) {
+    if (typeof(callback) !== 'function') {
+
+        callback = function () {
+            logger.info('Callback not registered');
+        }
+    }
+
+    const options = buildOptionsForRequest(
+        'POST',
+        CONFIG.HOST_SETTINGS.MARKETPLACE_CORE.PROTOCOL,
+        CONFIG.HOST_SETTINGS.MARKETPLACE_CORE.HOST,
+        CONFIG.HOST_SETTINGS.MARKETPLACE_CORE.PORT,
+        '/technologydata',
+        {}
+    );
+    options.headers.authorization = 'Bearer ' + token.accessToken;
+
+    options.body = objectData;
+
+    request(options, function (e, r, jsonData) {
+        const err = logger.logRequestAndResponse(e, options, r, jsonData);
+
+        if (err) {
+            return callback(err);
+        }
+        let objectId = null;
+
+        if (r.headers['location']) {
+            objectId = r.headers['location'].substr(r.headers['location'].lastIndexOf('/') + 1)
+        }
+
+        callback(err, objectId);
+    });
+};
+
 
 module.exports = self;
