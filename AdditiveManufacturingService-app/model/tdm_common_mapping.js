@@ -10,7 +10,7 @@ self.mapComponent = function (json) {
     component.name = json['componentname'];
     component.description = json['componentdescription'];
     component.id = json['componentuuid'];
-    component.color = json['displaycolor'];
+    component.displayColor = json['displaycolor'];
     component.attributes = json['attributes'] ? json['attributes'].map(attribute => {
         return self.mapAttribute(attribute);
     }) : null;

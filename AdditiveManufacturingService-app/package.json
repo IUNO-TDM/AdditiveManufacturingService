@@ -18,7 +18,7 @@
     "request": "^2.79.0",
     "socket.io": "^2.0.2",
     "socket.io-client": "^2.0.2",
-    "tdm-common": "https://github.com/IUNO-TDM/TDM-Common/releases/download/v0.1.0/tdm-common-0.1.0.tgz",
+    "tdm-common": "https://github.com/IUNO-TDM/TDM-Common/releases/download/v0.1.1/tdm-common-0.1.1.tgz",
     "winston": "^2.3.0"
   }
 }
