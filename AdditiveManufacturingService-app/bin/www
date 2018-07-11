@@ -24,8 +24,10 @@ const server = http.createServer(app);
 /**
  * Listen on provided port, on all network interfaces.
  */
+//Initialize socket io server
+const io = require('socket.io').listen(app.listen(port));
+require('../websocket/socket_io_controller')(io);
 
-server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
 
