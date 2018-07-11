@@ -77,4 +77,25 @@ router.post('/', validate({
     });
 });
 
+router.get('/:id/image', validate({
+    query: validation_schema.Empty,
+    body: validation_schema.Empty
+}), function (req, res, next) {
+    marketplaceCore.getImageForObject(req.token.accessToken, req.params['id'], function (err, data) {
+        if (err) {
+            next(err);
+            return;
+        }
+
+        if (!data) {
+            res.sendStatus(404);
+            return;
+        }
+
+        res.set('Content-Type', data.contentType);
+        res.send(data.imageBuffer);
+    });
+});
+
+
 module.exports = router;

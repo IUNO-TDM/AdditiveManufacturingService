@@ -49,5 +49,18 @@ self.mapObject = function (json) {
 
 };
 
+self.mapUser = function (json) {
+
+    const tdmUser = new tdmCommon.TdmUser();
+
+    tdmUser.id = json['id'];
+    tdmUser.firstname = json['firstname'];
+    tdmUser.lastname = json['lastname'];
+    tdmUser.username = json['username'];
+    tdmUser.userEmail = json['userEmail'];
+
+    return tdmUser;
+
+};
 
 module.exports = self;

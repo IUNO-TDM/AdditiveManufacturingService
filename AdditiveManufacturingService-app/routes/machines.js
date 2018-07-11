@@ -15,13 +15,13 @@ router.get('/', validate({
 }), function (req, res, next) {
     const language = req.query['lang'] || 'en';
 
-    marketplaceCore.getAllMachines(req.token['accessToken'], language, (err, machineTypes) => {
+    marketplaceCore.getAllMachines(req.token['accessToken'], language, (err, machines) => {
 
         if (err) {
             return next(err);
         }
 
-        res.json(machineTypes ? machineTypes : [])
+        res.json(machines ? machines : [])
     })
 
 });

@@ -7,7 +7,7 @@ const logger = require('../global/logger');
 const CONFIG = require('../config/config_loader');
 const request = require('request');
 const helper = require('../services/helper_service');
-const UserResponse = require('../model/user_response');
+const mapper = require('../model/tdm_common_mapping');
 
 const self = {};
 
@@ -91,11 +91,7 @@ self.getUserForId = function (userId, accessToken, callback) {
     request(options, function (e, r, jsonData) {
         const err = logger.logRequestAndResponse(e, options, r, jsonData);
 
-        let user;
-
-        if (jsonData && helper.isObject(jsonData)) {
-            user = UserResponse.CreateFromCoreJSON(jsonData);
-        }
+        let user = mapper.mapUser(jsonData);
 
         callback(err, user);
     });

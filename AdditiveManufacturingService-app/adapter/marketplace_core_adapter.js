@@ -193,5 +193,35 @@ self.saveObject = function (token, objectData, callback) {
     });
 };
 
+self.getImageForObject = function (accessToken, objectid, callback) {
+    if (typeof(callback) !== 'function') {
+
+        callback = function () {
+            logger.info('Callback not registered');
+        }
+    }
+
+    const options = buildOptionsForRequest(
+        'GET',
+        CONFIG.HOST_SETTINGS.MARKETPLACE_CORE.PROTOCOL,
+        CONFIG.HOST_SETTINGS.MARKETPLACE_CORE.HOST,
+        CONFIG.HOST_SETTINGS.MARKETPLACE_CORE.PORT,
+        '/technologydata/' + objectid + '/image',
+        {}
+    );
+    options.headers.authorization = 'Bearer ' + accessToken;
+    options.encoding = null;
+
+    request(options, function (e, r, data) {
+        const err = logger.logRequestAndResponse(e, options, r, data);
+
+        callback(err, {
+            imageBuffer: data,
+            contentType: r ? r.headers['content-type'] : null
+        });
+    });
+};
+
+
 
 module.exports = self;
