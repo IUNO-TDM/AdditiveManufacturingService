@@ -8,8 +8,7 @@ const request = require('request');
 const logger = require('../global/logger');
 const CONFIG = require('../config/config_loader');
 const helper = require('../services/helper_service');
-const MachineType = require('../model/machine_response');
-const Material = require('../model/material_response');
+const mapper = require('../model/tdm_common_mapping');
 
 
 function buildOptionsForRequest(method, protocol, host, port, path, qs) {
@@ -54,33 +53,41 @@ function getComponents(accessToken, language, attributes, callback) {
     });
 }
 
-self.getAllMachineTypes = function (accessToken, language, callback) {
+self.getAllMachines = function (accessToken, language, callback) {
 
     getComponents(accessToken, language, [CONFIG.MACHINE_ATR_UUID], (err, jsonData) => {
-        const machineTypes = [];
 
-        if (helper.isArray(jsonData)) {
-            jsonData.forEach(function (entry) {
-                machineTypes.push(MachineType.CreateFromJSON(entry));
-            });
-        }
+        const machineComponents = jsonData.map(component => {
 
-        callback(err, machineTypes);
+            //TODO: Remove this later (when the core attributes are also returned from the core)
+            component['attributelist'] = [{
+                attributeuuid: CONFIG.MACHINE_ATR_UUID,
+                attributename: 'machine'
+            }];
+
+            return mapper.mapComponent(component);
+        });
+
+        callback(err, machineComponents);
     });
 };
 
 self.getAllMaterials = function (accessToken, language, callback) {
 
     getComponents(accessToken, language, [CONFIG.MATERIAL_ATR_UUID], (err, jsonData) => {
-        const materials = [];
 
-        if (helper.isArray(jsonData)) {
-            jsonData.forEach(function (entry) {
-                materials.push(Material.CreateFromJSON(entry));
-            });
-        }
+        const materialComponents = jsonData.map(component => {
 
-        callback(err, materials);
+            //TODO: Remove this later (when the core attributes are also returned from the core)
+            component['attributelist'] = [{
+                attributeuuid: CONFIG.MATERIAL_ATR_UUID,
+                attributename: 'material'
+            }];
+
+            return mapper.mapComponent(component);
+        });
+
+        callback(err, materialComponents);
     });
 };
 

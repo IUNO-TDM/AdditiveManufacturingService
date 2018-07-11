@@ -15,7 +15,7 @@ router.get('/', validate({
 }), function (req, res, next) {
     const language = req.query['lang'] || 'de';
 
-    marketplaceCore.getAllMachineTypes(req.token['accessToken'], language, (err, machineTypes) => {
+    marketplaceCore.getAllMachines(req.token['accessToken'], language, (err, machineTypes) => {
 
         if (err) {
             return next(err);
