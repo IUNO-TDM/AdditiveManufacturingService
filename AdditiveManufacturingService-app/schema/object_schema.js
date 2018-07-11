@@ -26,7 +26,7 @@ self.Object_Query = {
             },
             additionalItems: false
         },
-        machineTypes: {
+        machines: {
             type: 'array',
             items: {
                 type: 'string',
@@ -36,7 +36,7 @@ self.Object_Query = {
         },
         lang: languageProperty
     },
-    required: ['materials', 'machineTypes' ,'lang'],
+    required: ['materials', 'machines' ,'lang'],
     additionalProperties: false
 };
 

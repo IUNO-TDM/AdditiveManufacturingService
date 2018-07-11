@@ -13,7 +13,7 @@ router.get('/', validate({
     query: validation_schema.Material_Query,
     body: validation_schema.Empty
 }), function (req, res, next) {
-    const language = req.query['lang'] || 'de';
+    const language = req.query['lang'] || 'en';
 
     marketplaceCore.getAllMaterials(req.token['accessToken'], language, (err, materials) => {
 

@@ -13,7 +13,7 @@ router.get('/', validate({
     query: validation_schema.Type_Query,
     body: validation_schema.Empty
 }), function (req, res, next) {
-    const language = req.query['lang'] || 'de';
+    const language = req.query['lang'] || 'en';
 
     marketplaceCore.getAllMachines(req.token['accessToken'], language, (err, machineTypes) => {
 

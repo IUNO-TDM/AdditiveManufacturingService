@@ -79,7 +79,7 @@ self.getAllMaterials = function (accessToken, language, callback) {
         const materialComponents = jsonData.map(component => {
 
             //TODO: Remove this later (when the core attributes are also returned from the core)
-            component['attributelist'] = [{
+            component['attributes'] = [{
                 attributeuuid: CONFIG.MATERIAL_ATR_UUID,
                 attributename: 'material'
             }];
@@ -89,6 +89,44 @@ self.getAllMaterials = function (accessToken, language, callback) {
 
         callback(err, materialComponents);
     });
+};
+
+self.getAllObjects = function(accessToken, language, machines, materials, callback) {
+
+
+    if (typeof(callback) !== 'function') {
+
+        callback = function () {
+            logger.info('Callback not registered');
+        }
+    }
+
+    const options = buildOptionsForRequest(
+        'GET',
+        CONFIG.HOST_SETTINGS.MARKETPLACE_CORE.PROTOCOL,
+        CONFIG.HOST_SETTINGS.MARKETPLACE_CORE.HOST,
+        CONFIG.HOST_SETTINGS.MARKETPLACE_CORE.PORT,
+        '/technologydata',
+        {
+            components: machines.concat(materials),
+            lang: language,
+            technology: CONFIG.TECHNOLOGY_UUID
+        }
+    );
+
+    options.headers.authorization = 'Bearer ' + accessToken;
+
+
+    request(options, function (e, r, jsonData) {
+        const err = logger.logRequestAndResponse(e, options, r, jsonData);
+
+        const objects = jsonData.map(tdmObject => {
+           return mapper.mapObject(tdmObject);
+        });
+
+        callback(err, objects);
+    });
+
 };
 
 

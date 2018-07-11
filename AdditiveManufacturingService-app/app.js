@@ -29,6 +29,7 @@ app.use(authentication.oAuth);
 
 app.use('/machines', require('./routes/machines'));
 app.use('/materials', require('./routes/materials'));
+app.use('/objects', require('./routes/objects'));
 
 // parse schema validation errors
 app.use(schemaValidation);
