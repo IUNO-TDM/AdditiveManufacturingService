@@ -91,7 +91,7 @@ self.getAllMaterials = function (accessToken, language, callback) {
     });
 };
 
-self.getAllObjects = function(accessToken, language, machines, materials, callback) {
+self.getAllObjects = function (accessToken, language, machines, materials, callback) {
 
 
     if (typeof(callback) !== 'function') {
@@ -121,7 +121,7 @@ self.getAllObjects = function(accessToken, language, machines, materials, callba
         const err = logger.logRequestAndResponse(e, options, r, jsonData);
 
         const objects = jsonData.map(tdmObject => {
-           return mapper.mapObject(tdmObject);
+            return mapper.mapObject(tdmObject);
         });
 
         callback(err, objects);
@@ -222,6 +222,36 @@ self.getImageForObject = function (accessToken, objectid, callback) {
     });
 };
 
+self.createOfferForRequest = function (accessToken, offerRequest, callback) {
+    if (typeof(callback) !== 'function') {
+
+        callback = function () {
+            logger.info('Callback not registered');
+        }
+    }
+
+    const options = buildOptionsForRequest(
+        'POST',
+        CONFIG.HOST_SETTINGS.MARKETPLACE_CORE.PROTOCOL,
+        CONFIG.HOST_SETTINGS.MARKETPLACE_CORE.HOST,
+        CONFIG.HOST_SETTINGS.MARKETPLACE_CORE.PORT,
+        '/offers',
+        {}
+    );
+    options.headers.authorization = 'Bearer ' + accessToken;
+    options.body = offerRequest;
+
+    request(options, function (e, r, jsonData) {
+        const err = logger.logRequestAndResponse(e, options, r, jsonData);
+
+        if (err) {
+            return callback(err);
+        }
+        const offer = mapper.mapOffer(jsonData);
+
+        callback(err, offer);
+    });
+};
 
 
 module.exports = self;

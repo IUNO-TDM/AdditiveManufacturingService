@@ -14,7 +14,7 @@ router.get('/:id', validate({
     body: validation_schema.Empty
 }), function (req, res, next) {
 
-    oAuthServer.getUserForId(req.params['id'], req.token.accessToken, function (err, user) {
+    oAuthServer.getUserForId(req.params['id'], req.token.accessToken, (err, user) => {
         if (err) {
             next(err);
             return;
@@ -35,7 +35,7 @@ router.get('/:id/image', validate({
     body: validation_schema.Empty
 }), function (req, res, next) {
 
-    oAuthServer.getImageForUser(req.params['id'], req.token.accessToken, function (err, data) {
+    oAuthServer.getImageForUser(req.params['id'], req.token.accessToken, (err, data) => {
         if (err) {
             next(err);
             return;

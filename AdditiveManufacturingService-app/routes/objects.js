@@ -81,7 +81,7 @@ router.get('/:id/image', validate({
     query: validation_schema.Empty,
     body: validation_schema.Empty
 }), function (req, res, next) {
-    marketplaceCore.getImageForObject(req.token.accessToken, req.params['id'], function (err, data) {
+    marketplaceCore.getImageForObject(req.token.accessToken, req.params['id'], (err, data) => {
         if (err) {
             next(err);
             return;

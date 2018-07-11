@@ -63,4 +63,27 @@ self.mapUser = function (json) {
 
 };
 
+self.mapOffer = function (json) {
+
+    const tdmOffer = new tdmCommon.TdmPaymentOffer();
+
+    tdmOffer.id = json['id'];
+    if (json['invoice']) {
+        tdmOffer.invoice = new tdmCommon.TdmPaymentInvoice();
+        tdmOffer.invoice.expiration  = json['invoice']['expiration'];
+        if (json['invoice']['transfers']) {
+            tdmOffer.invoice.transfers = json['invoice']['transfers'].map(transfer => {
+                const tdmTransfer = new tdmCommon.TdmPaymentTransfer();
+                tdmTransfer.address = transfer['address'];
+                tdmTransfer.coin = transfer['coin'];
+
+                return tdmTransfer;
+            });
+        }
+    }
+    tdmOffer.bip21 = json['bip21'];
+
+    return tdmOffer;
+};
+
 module.exports = self;
