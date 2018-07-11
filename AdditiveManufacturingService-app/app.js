@@ -32,6 +32,7 @@ app.use('/materials', require('./routes/materials'));
 app.use('/objects', require('./routes/objects'));
 app.use('/users', require('./routes/users'));
 app.use('/offers', require('./routes/offers'));
+app.use('/cmdongle', require('./routes/cmdongle'));
 
 // parse schema validation errors
 app.use(schemaValidation);

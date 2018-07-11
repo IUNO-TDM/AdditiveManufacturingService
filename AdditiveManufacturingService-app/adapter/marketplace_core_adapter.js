@@ -253,5 +253,104 @@ self.createOfferForRequest = function (accessToken, offerRequest, callback) {
     });
 };
 
+self.getLicenseUpdate = function (hsmId, context, accessToken, callback) {
+    if (typeof(callback) !== 'function') {
+        return logger.info('[marketplace_core_adapter] Callback not registered');
+    }
+
+    if (!hsmId || !context) {
+        return logger.info('[marketplace_core_adapter] missing function arguments');
+    }
+
+    const options = buildOptionsForRequest(
+        'POST',
+        CONFIG.HOST_SETTINGS.MARKETPLACE_CORE.PROTOCOL,
+        CONFIG.HOST_SETTINGS.MARKETPLACE_CORE.HOST,
+        CONFIG.HOST_SETTINGS.MARKETPLACE_CORE.PORT,
+        '/cmdongle/' + hsmId + '/update',
+        {}
+    );
+    options.headers.authorization = 'Bearer ' + accessToken;
+
+    options.body = {
+        RAC: context
+    };
+
+    request(options, function (e, r, jsonData) {
+        const err = logger.logRequestAndResponse(e, options, r, jsonData);
+
+        let rau = null;
+        let isOutOfDate = false;
+        if (jsonData) {
+            rau = jsonData['RAU'];
+            isOutOfDate = jsonData['isOutOfDate']
+        }
+
+        callback(err, rau, isOutOfDate);
+    });
+
+};
+
+self.confirmLicenseUpdate = function (hsmId, context, accessToken, callback) {
+    if (typeof(callback) !== 'function') {
+        return logger.info('[marketplace_core_adapter] Callback not registered');
+    }
+
+    if (!hsmId || !context) {
+        return logger.info('[marketplace_core_adapter] missing function arguments');
+    }
+
+    const options = buildOptionsForRequest(
+        'POST',
+        CONFIG.HOST_SETTINGS.MARKETPLACE_CORE.PROTOCOL,
+        CONFIG.HOST_SETTINGS.MARKETPLACE_CORE.HOST,
+        CONFIG.HOST_SETTINGS.MARKETPLACE_CORE.PORT,
+        '/cmdongle/' + hsmId + '/update/confirm',
+        {}
+    );
+    options.headers.authorization = 'Bearer ' + accessToken;
+
+    options.body = {
+        RAC: context
+    };
+
+    request(options, function (e, r, jsonData) {
+        const err = logger.logRequestAndResponse(e, options, r, jsonData);
+
+        let rau = null;
+        let isOutOfDate = false;
+        if (jsonData) {
+            rau = jsonData['RAU'];
+            isOutOfDate = jsonData['isOutOfDate']
+        }
+
+        callback(err, rau, isOutOfDate);
+    });
+};
+
+self.createProtocolForClientId = function (accessToken, clientId, protocol, callback) {
+    if (typeof(callback) !== 'function') {
+
+        callback = function () {
+            logger.info('Callback not registered');
+        }
+    }
+
+    const options = buildOptionsForRequest(
+        'POST',
+        CONFIG.HOST_SETTINGS.MARKETPLACE_CORE.PROTOCOL,
+        CONFIG.HOST_SETTINGS.MARKETPLACE_CORE.HOST,
+        CONFIG.HOST_SETTINGS.MARKETPLACE_CORE.PORT,
+        '/protocols/' + clientId,
+        {}
+    );
+    options.headers.authorization = 'Bearer ' + accessToken;
+    options.body = protocol;
+
+    request(options, function (e, r, jsonData) {
+        const err = logger.logRequestAndResponse(e, options, r, jsonData);
+        callback(err, jsonData);
+    });
+};
 
 module.exports = self;
