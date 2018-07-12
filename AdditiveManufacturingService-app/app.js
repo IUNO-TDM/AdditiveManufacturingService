@@ -1,7 +1,7 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-const queryParser = require('express-query-int');
+const queryParser = require('./services/query_parser');
 const bodyParser = require('body-parser');
 const authentication = require('./services/authentication_service');
 const contentTypeValidation = require('./services/content_type_validation');
@@ -17,7 +17,7 @@ app.use('/cmdongle', bodyParser.json({
 app.use('/', bodyParser.json({
     limit: '10kb'
 }));
-app.use(queryParser());
+app.use(queryParser);
 app.use(bodyParser.urlencoded({
     extended: false
 }));

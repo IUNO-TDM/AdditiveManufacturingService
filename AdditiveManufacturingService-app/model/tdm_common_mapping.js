@@ -51,15 +51,10 @@ self.mapObject = function (json) {
 
 self.mapUser = function (json) {
 
-    const tdmUser = new tdmCommon.TdmUser();
 
-    tdmUser.id = json['id'];
-    tdmUser.firstname = json['firstname'];
-    tdmUser.lastname = json['lastname'];
-    tdmUser.username = json['username'];
-    tdmUser.userEmail = json['userEmail'];
+    json.__proto__ = tdmCommon.TdmUser.prototype;
 
-    return tdmUser;
+    return json;
 
 };
 
