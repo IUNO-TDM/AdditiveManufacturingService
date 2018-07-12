@@ -72,8 +72,9 @@ router.post('/', validate({
         }
 
         const fullUrl = helper.buildFullUrlFromRequest(req);
-        res.set('Location', fullUrl + 'recipes/' + objectId);
-        res.sendStatus(201);
+        res.set('Location', fullUrl + 'objects/' + objectId);
+        res.status(201);
+        res.send('' + objectId);
     });
 });
 
