@@ -91,7 +91,7 @@ self.getAllMaterials = function (accessToken, language, callback) {
     });
 };
 
-self.getAllObjects = function (accessToken, language, machines, materials, callback) {
+self.getAllObjects = function (accessToken, language, machines, materials, productCodes, callback) {
 
 
     if (typeof(callback) !== 'function') {
@@ -110,7 +110,8 @@ self.getAllObjects = function (accessToken, language, machines, materials, callb
         {
             components: machines.concat(materials),
             lang: language,
-            technology: CONFIG.TECHNOLOGY_UUID
+            technology: CONFIG.TECHNOLOGY_UUID,
+            productCodes: productCodes
         }
     );
 

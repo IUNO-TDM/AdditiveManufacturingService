@@ -17,8 +17,9 @@ router.get('/', validate({
     const language = req.query['lang'] || 'en';
     const machines = req.query['machines'];
     const materials = req.query['materials'];
+    const productCodes = req.query['productCodes'];
 
-    marketplaceCore.getAllObjects(req.token['accessToken'], language, machines, materials, (err, objects) => {
+    marketplaceCore.getAllObjects(req.token['accessToken'], language, machines, materials, productCodes, (err, objects) => {
 
         if (err) {
             return next(err);

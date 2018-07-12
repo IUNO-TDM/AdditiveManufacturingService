@@ -34,6 +34,18 @@ self.Object_Query = {
             },
             additionalItems: false
         },
+        productCodes: {
+            type: 'array',
+            minItems: 1,
+            maxItems: 100,
+            uniqueItems: true,
+            items: {
+                type: 'integer',
+                minimum: 1000,
+                maximum: 1000000
+            },
+            additionalItems: false
+        },
         lang: languageProperty
     },
     required: ['materials', 'machines', 'lang'],
