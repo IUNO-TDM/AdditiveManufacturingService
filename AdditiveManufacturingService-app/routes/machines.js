@@ -13,7 +13,7 @@ router.get('/', validate({
     query: validation_schema.Type_Query,
     body: validation_schema.Empty
 }), function (req, res, next) {
-    const language = req.query['lang'] || 'en';
+    const language = 'en'; //TODO: Remove this as soon as we do have german translations;
 
     marketplaceCore.getAllMachines(req.token['accessToken'], language, (err, machines) => {
 

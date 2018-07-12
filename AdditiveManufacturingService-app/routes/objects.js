@@ -14,7 +14,7 @@ router.get('/', validate({
     query: validation_schema.Object_Query,
     body: validation_schema.Empty
 }), function (req, res, next) {
-    const language = req.query['lang'] || 'en';
+    const language = 'en'; //TODO: Remove this as soon as we do have german translations;
     const machines = req.query['machines'];
     const materials = req.query['materials'];
     const productCodes = req.query['productCodes'];
