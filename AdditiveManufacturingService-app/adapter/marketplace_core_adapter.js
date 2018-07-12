@@ -178,7 +178,7 @@ self.getBinaryForObjectWithId = function (accessToken, objectId, offerId, callba
     });
 };
 
-self.saveObject = function (token, objectData, callback) {
+self.saveObject = function (accessToken, objectData, callback) {
     if (typeof(callback) !== 'function') {
 
         callback = function () {
@@ -194,7 +194,7 @@ self.saveObject = function (token, objectData, callback) {
         '/technologydata',
         {}
     );
-    options.headers.authorization = 'Bearer ' + token.accessToken;
+    options.headers.authorization = 'Bearer ' + accessToken;
 
     options.body = objectData;
 

@@ -62,7 +62,7 @@ router.post('/', validate({
     coreData.backgroundColor = req.body['backgroundColor'];
     coreData.image = req.body['image'];
 
-    marketplaceCore.saveObject(req.user.token, coreData, (err, objectId) => {
+    marketplaceCore.saveObject(req.token.accessToken, coreData, (err, objectId) => {
 
         if (err) {
             if (err.statusCode === 409) {
