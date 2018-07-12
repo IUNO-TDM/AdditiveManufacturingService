@@ -57,16 +57,24 @@ self.getAllMachines = function (accessToken, language, callback) {
 
     getComponents(accessToken, language, [CONFIG.MACHINE_ATR_UUID], (err, jsonData) => {
 
-        const machineComponents = jsonData.map(component => {
+        if (err) {
+            return callback(err);
+        }
 
-            //TODO: Remove this later (when the core attributes are also returned from the core)
-            component['attributelist'] = [{
-                attributeuuid: CONFIG.MACHINE_ATR_UUID,
-                attributename: 'machine'
-            }];
+        let machineComponents;
 
-            return mapper.mapComponent(component);
-        });
+        if (jsonData) {
+            machineComponents = jsonData.map(component => {
+
+                //TODO: Remove this later (when the core attributes are also returned from the core)
+                component['attributelist'] = [{
+                    attributeuuid: CONFIG.MACHINE_ATR_UUID,
+                    attributename: 'machine'
+                }];
+
+                return mapper.mapComponent(component);
+            });
+        }
 
         callback(err, machineComponents);
     });
@@ -76,16 +84,24 @@ self.getAllMaterials = function (accessToken, language, callback) {
 
     getComponents(accessToken, language, [CONFIG.MATERIAL_ATR_UUID], (err, jsonData) => {
 
-        const materialComponents = jsonData.map(component => {
+        if (err) {
+            return callback(err);
+        }
 
-            //TODO: Remove this later (when the core attributes are also returned from the core)
-            component['attributes'] = [{
-                attributeuuid: CONFIG.MATERIAL_ATR_UUID,
-                attributename: 'material'
-            }];
+        let materialComponents;
 
-            return mapper.mapComponent(component);
-        });
+        if (jsonData) {
+            materialComponents = jsonData.map(component => {
+
+                //TODO: Remove this later (when the core attributes are also returned from the core)
+                component['attributes'] = [{
+                    attributeuuid: CONFIG.MATERIAL_ATR_UUID,
+                    attributename: 'material'
+                }];
+
+                return mapper.mapComponent(component);
+            });
+        }
 
         callback(err, materialComponents);
     });
@@ -121,9 +137,13 @@ self.getAllObjects = function (accessToken, language, machines, materials, produ
     request(options, function (e, r, jsonData) {
         const err = logger.logRequestAndResponse(e, options, r, jsonData);
 
-        const objects = jsonData.map(tdmObject => {
-            return mapper.mapObject(tdmObject);
-        });
+        let objects;
+
+        if (jsonData) {
+            objects = jsonData.map(tdmObject => {
+                return mapper.mapObject(tdmObject);
+            });
+        }
 
         callback(err, objects);
     });

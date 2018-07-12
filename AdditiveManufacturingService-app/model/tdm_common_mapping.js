@@ -37,9 +37,9 @@ self.mapObject = function (json) {
     tdmObject.licenseFee = json['licensefee'];
     tdmObject.productCode = json['productcode'];
     tdmObject.backgroundColor = json['backgroundcolor'];
-    tdmObject.components = json['componentlist'].map(component => {
+    tdmObject.components = json['componentlist'] ? json['componentlist'].map(component => {
         return self.mapComponent(component);
-    });
+    }) : null;
     tdmObject.materials = _.filter(tdmObject.components, component => _.filter(component.attributes, attribute => attribute.name === 'material').length > 0);
     tdmObject.machines = _.filter(tdmObject.components, component => _.filter(component.attributes, attribute => attribute.name === 'machine').length > 0);
     tdmObject.technology = new tdmCommon.TdmTechnology();
@@ -65,7 +65,7 @@ self.mapOffer = function (json) {
     tdmOffer.id = json['id'];
     if (json['invoice']) {
         tdmOffer.invoice = new tdmCommon.TdmPaymentInvoice();
-        tdmOffer.invoice.expiration  = json['invoice']['expiration'];
+        tdmOffer.invoice.expiration = json['invoice']['expiration'];
         if (json['invoice']['transfers']) {
             tdmOffer.invoice.transfers = json['invoice']['transfers'].map(transfer => {
                 const tdmTransfer = new tdmCommon.TdmPaymentTransfer();
