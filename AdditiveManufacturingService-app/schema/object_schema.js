@@ -82,7 +82,8 @@ self.SaveObject_Body = {
             items: {
                 type: 'string',
                 format: 'uuid'
-            }
+            },
+            additionalItems: false
         },
         backgroundColor: {
             type: 'string',
