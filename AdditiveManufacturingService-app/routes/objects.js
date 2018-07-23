@@ -59,7 +59,7 @@ router.post('/', validate({
     const coreData = {};
 
     coreData.technologyDataName = req.body['title'];
-    coreData.technologyData = req.body['placeholder'];
+    coreData.technologyData = req.body['encryptedKey'];
     coreData.technologyDataDescription = req.body['description'];
     coreData.technologyUUID = CONFIG.TECHNOLOGY_UUID;
     coreData.licenseFee = req.body['licenseFee'];

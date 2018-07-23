@@ -72,9 +72,11 @@ self.SaveObject_Body = {
             minLength: 5,
             maxLength: 200
         },
-        placeholder: {
+        encryptedKey: {
             type: 'string',
-            format: 'uuid'
+            pattern: '^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$',
+            minLength: 50,
+            maxLength: 100000
         },
         description: {
             type: 'string',
@@ -105,7 +107,7 @@ self.SaveObject_Body = {
             maxLength: 10000
         }
     },
-    required: ['title', 'placeholder', 'description', 'licenseFee', 'components'],
+    required: ['title', 'encryptedKey', 'description', 'licenseFee', 'components'],
     additionalProperties: false
 };
 
