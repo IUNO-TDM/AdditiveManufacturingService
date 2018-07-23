@@ -72,11 +72,10 @@ self.SaveObject_Body = {
             minLength: 5,
             maxLength: 200
         },
-        encryptedBinary: {
+        filename: {
             type: 'string',
-            pattern: '^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$',
             minLength: 1,
-            maxLength: 100000
+            maxLength: 100
         },
         description: {
             type: 'string',

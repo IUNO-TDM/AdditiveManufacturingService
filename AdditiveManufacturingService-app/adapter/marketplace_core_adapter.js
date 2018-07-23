@@ -374,4 +374,19 @@ self.createProtocolForClientId = function (accessToken, clientId, protocol, call
     });
 };
 
+self.uploadBinary = function (technologyDataId, req, res, next) {
+    const uri = `${CONFIG.HOST_SETTINGS.MARKETPLACE_CORE.PROTOCOL}://`
+        + `${CONFIG.HOST_SETTINGS.MARKETPLACE_CORE.HOST}:`
+        + `${CONFIG.HOST_SETTINGS.MARKETPLACE_CORE.PORT}/technologydata/`
+        + `${technologyDataId}/content`;
+    req.pipe(
+        request(uri, (err, pipeResponse) => {
+            if (err) {
+                return next(err)
+            }
+
+            res.sendStatus(pipeResponse.statusCode);
+        }));
+};
+
 module.exports = self;

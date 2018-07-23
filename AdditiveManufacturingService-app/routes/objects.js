@@ -5,6 +5,7 @@ const marketplaceCore = require('../adapter/marketplace_core_adapter');
 const helper = require('../services/helper_service');
 const CONFIG = require('../config/config_loader');
 
+
 const Validator = require('express-json-validator-middleware').Validator;
 const validator = new Validator({allErrors: true});
 const validate = validator.validate;
@@ -46,6 +47,10 @@ router.get('/:id/binary', validate({
     });
 });
 
+router.post('/:id/binary', function (req, res, next) {
+    marketplaceCore.uploadBinary(req.params['id'], req, res, next);
+});
+
 router.post('/', validate({
     query: validation_schema.Empty,
     body: validation_schema.SaveObject_Body
@@ -54,7 +59,7 @@ router.post('/', validate({
     const coreData = {};
 
     coreData.technologyDataName = req.body['title'];
-    coreData.technologyData = req.body['encryptedBinary'];
+    coreData.technologyData = req.body['filename'];
     coreData.technologyDataDescription = req.body['description'];
     coreData.technologyUUID = CONFIG.TECHNOLOGY_UUID;
     coreData.licenseFee = req.body['licenseFee'];
