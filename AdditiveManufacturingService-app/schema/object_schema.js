@@ -72,10 +72,9 @@ self.SaveObject_Body = {
             minLength: 5,
             maxLength: 200
         },
-        filename: {
+        placeholder: {
             type: 'string',
-            minLength: 1,
-            maxLength: 100
+            format: 'uuid'
         },
         description: {
             type: 'string',
@@ -106,7 +105,7 @@ self.SaveObject_Body = {
             maxLength: 10000
         }
     },
-    required: ['title', 'encryptedBinary', 'description', 'licenseFee', 'components'],
+    required: ['title', 'placeholder', 'description', 'licenseFee', 'components'],
     additionalProperties: false
 };
 
