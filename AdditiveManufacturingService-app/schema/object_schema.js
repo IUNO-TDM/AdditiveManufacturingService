@@ -24,6 +24,8 @@ self.Object_Query = {
                 type: 'string',
                 format: 'uuid'
             },
+            minLength: 1,
+            maxLength: 10,
             additionalItems: false
         },
         machines: {
@@ -32,6 +34,8 @@ self.Object_Query = {
                 type: 'string',
                 format: 'uuid'
             },
+            minLength: 1,
+            maxLength: 10,
             additionalItems: false
         },
         productCodes: {
@@ -48,7 +52,7 @@ self.Object_Query = {
         },
         lang: languageProperty
     },
-    required: ['materials', 'machines', 'lang'],
+    required: ['lang'],
     additionalProperties: false
 };
 

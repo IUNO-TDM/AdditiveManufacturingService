@@ -35,16 +35,7 @@ router.get('/:id/binary', validate({
     query: validation_schema.GetBinary_Query,
     body: validation_schema.Empty
 }), function (req, res, next) {
-    marketplaceCore.getBinaryForObjectWithId(req.token['accessToken'], req.params['id'], req.query['offerId'], (err, binary) => {
-        if (err) {
-            if (err.statusCode >= 500) {
-                return next(err);
-            }
-            return res.sendStatus(err.statusCode);
-        }
-
-        res.json(binary);
-    });
+    marketplaceCore.downloadBinary(req.params['id'], req.query['offerId'], req, res, next);
 });
 
 router.post('/:id/binary', function (req, res, next) {
@@ -66,6 +57,7 @@ router.post('/', validate({
     coreData.componentList = req.body['components'];
     coreData.backgroundColor = req.body['backgroundColor'];
     coreData.image = req.body['image'];
+    coreData.isFile = true;
 
     marketplaceCore.saveObject(req.token.accessToken, coreData, (err, objectId) => {
 

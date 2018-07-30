@@ -124,7 +124,7 @@ self.getAllObjects = function (accessToken, language, machines, materials, produ
         CONFIG.HOST_SETTINGS.MARKETPLACE_CORE.PORT,
         '/technologydata',
         {
-            components: machines.concat(materials),
+            components: machines ? machines.concat(materials ? materials : []) : materials ? materials : [],
             lang: language,
             technology: CONFIG.TECHNOLOGY_UUID,
             productCodes: productCodes
@@ -148,34 +148,6 @@ self.getAllObjects = function (accessToken, language, machines, materials, produ
         callback(err, objects);
     });
 
-};
-
-self.getBinaryForObjectWithId = function (accessToken, objectId, offerId, callback) {
-    if (typeof(callback) !== 'function') {
-
-        callback = function () {
-            logger.info('Callback not registered');
-        }
-    }
-
-    const options = buildOptionsForRequest(
-        'GET',
-        CONFIG.HOST_SETTINGS.MARKETPLACE_CORE.PROTOCOL,
-        CONFIG.HOST_SETTINGS.MARKETPLACE_CORE.HOST,
-        CONFIG.HOST_SETTINGS.MARKETPLACE_CORE.PORT,
-        `/technologydata/${objectId}/content`,
-        {
-            offerId: offerId
-        }
-    );
-    options.headers.authorization = 'Bearer ' + accessToken;
-
-    request(options, function (e, r, binary) {
-
-        const err = logger.logRequestAndResponse(e, options, r, binary);
-
-        callback(err, binary);
-    });
 };
 
 self.saveObject = function (accessToken, objectData, callback) {
@@ -374,11 +346,11 @@ self.createProtocolForClientId = function (accessToken, clientId, protocol, call
     });
 };
 
-self.uploadBinary = function (technologyDataId, req, res, next) {
+self.uploadBinary = function (objectId, req, res, next) {
     const uri = `${CONFIG.HOST_SETTINGS.MARKETPLACE_CORE.PROTOCOL}://`
         + `${CONFIG.HOST_SETTINGS.MARKETPLACE_CORE.HOST}:`
         + `${CONFIG.HOST_SETTINGS.MARKETPLACE_CORE.PORT}/technologydata/`
-        + `${technologyDataId}/content`;
+        + `${objectId}/content`;
     req.pipe(
         request(uri, (err, pipeResponse) => {
             if (err) {
@@ -387,6 +359,26 @@ self.uploadBinary = function (technologyDataId, req, res, next) {
 
             res.sendStatus(pipeResponse.statusCode);
         }));
+};
+
+self.downloadBinary = function (objectId, offerId, req, res, next) {
+    const options = buildOptionsForRequest(
+        'GET',
+        CONFIG.HOST_SETTINGS.MARKETPLACE_CORE.PROTOCOL,
+        CONFIG.HOST_SETTINGS.MARKETPLACE_CORE.HOST,
+        CONFIG.HOST_SETTINGS.MARKETPLACE_CORE.PORT,
+        `/technologydata/${objectId}/content`,
+        {
+            offerId: offerId
+        }
+    );
+    options.headers.authorization = 'Bearer ' + req.token['accessToken'];
+
+    request(options)
+        .on('error', (err) => {
+            logger.warn('[marketplace_core_adapter] error on binary download');
+            next(err);
+        }).pipe(res);
 };
 
 module.exports = self;
