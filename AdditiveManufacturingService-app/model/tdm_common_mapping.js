@@ -40,8 +40,12 @@ self.mapObject = function (json) {
     tdmObject.components = json['componentlist'] ? json['componentlist'].map(component => {
         return self.mapComponent(component);
     }) : null;
+
+    // sort materials and machines in separate properties. remove all other components
     tdmObject.materials = _.filter(tdmObject.components, component => _.filter(component.attributes, attribute => attribute.name === 'material').length > 0);
     tdmObject.machines = _.filter(tdmObject.components, component => _.filter(component.attributes, attribute => attribute.name === 'machine').length > 0);
+    tdmObject.components = undefined;
+
     tdmObject.technology = new tdmCommon.TdmTechnology();
     tdmObject.technology.id = CONFIG.TECHNOLOGY_UUID;
 
