@@ -85,6 +85,7 @@ license_client.socket.on('disconnect', function () {
  * updateAvailable events are directly passed to the registered clients. Via the license service.
  */
 license_client.socket.on('updateAvailable', function (data) {
+    logger.debug(`[license_client] received updateAvailable event for hsmid: ${data.hsmId} and offerid: ${data.offerId}`);
     license_client.emit('updateAvailable', data.offerId, data.hsmId);
 });
 
