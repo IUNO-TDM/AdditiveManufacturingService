@@ -94,6 +94,9 @@ license_client.registerUpdates = function (hsmId) {
     /**
      * The subscriptions for license updates are separated by the hsmId.
      */
+
+    logger.debug(`[license_client] joining room: ${hsmId}`);
+
     if (!hsmId) {
         return;
     }
@@ -104,6 +107,8 @@ license_client.registerUpdates = function (hsmId) {
 };
 
 license_client.unregisterUpdates = function (hsmId) {
+
+    logger.debug(`[license_client] leaving rooms ${hsmId}`);
     if (license_client.registeredRooms[hsmId]) {
         delete  license_client.registeredRooms[hsmId];
     }

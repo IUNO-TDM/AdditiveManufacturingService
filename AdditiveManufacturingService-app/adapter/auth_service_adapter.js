@@ -182,6 +182,7 @@ self.getClientAccessToken = function (callback) {
 
 self.invalidateToken = function () {
 
+    logger.debug('[auth_service_adapter] invalidate token');
     self.token = null;
 
 };
