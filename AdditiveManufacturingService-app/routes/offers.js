@@ -30,4 +30,20 @@ router.post('/', validate({
     });
 });
 
+router.post('/:offer_id/request_license_update', validate({
+    body: validation_schema.RequestLicenseUpdateBody,
+    query: validation_schema.Empty
+}), function (req, res, next) {
+
+    marketplaceCore.requestForLicenseUpdate(req.token.accessToken, req.params['offer_id'], req.body['hsmId'], (err) => {
+        if (err) {
+            next(err);
+            return;
+        }
+
+        res.sendStatus(200);
+    });
+
+});
+
 module.exports = router;

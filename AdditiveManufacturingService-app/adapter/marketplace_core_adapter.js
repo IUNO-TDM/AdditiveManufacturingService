@@ -381,4 +381,31 @@ self.downloadBinary = function (objectId, offerId, req, res, next) {
         }).pipe(res);
 };
 
+self.requestForLicenseUpdate = function (accessToken, offerId, hsmId, callback) {
+    if (typeof(callback) !== 'function') {
+
+        callback = function () {
+            logger.info('Callback not registered');
+        }
+    }
+
+    const options = buildOptionsForRequest(
+        'POST',
+        CONFIG.HOST_SETTINGS.MARKETPLACE_CORE.PROTOCOL,
+        CONFIG.HOST_SETTINGS.MARKETPLACE_CORE.HOST,
+        CONFIG.HOST_SETTINGS.MARKETPLACE_CORE.PORT,
+        `/offers/${offerId}/request_license_update`,
+        {}
+    );
+    options.headers.authorization = 'Bearer ' + accessToken;
+    options.body = {
+        hsmId: hsmId
+    };
+
+    request(options, (e, r, jsonData) => {
+        const err = logger.logRequestAndResponse(e, options, r, jsonData);
+        callback(err);
+    });
+};
+
 module.exports = self;
