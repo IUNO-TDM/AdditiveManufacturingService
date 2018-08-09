@@ -350,7 +350,7 @@ self.uploadBinary = function (objectId, req, res, next) {
     const uri = `${CONFIG.HOST_SETTINGS.MARKETPLACE_CORE.PROTOCOL}://`
         + `${CONFIG.HOST_SETTINGS.MARKETPLACE_CORE.HOST}:`
         + `${CONFIG.HOST_SETTINGS.MARKETPLACE_CORE.PORT}/technologydata/`
-        + `${objectId}/content`;
+        + `${objectId}/file`;
     req.pipe(
         request(uri, (err, pipeResponse) => {
             if (err) {
