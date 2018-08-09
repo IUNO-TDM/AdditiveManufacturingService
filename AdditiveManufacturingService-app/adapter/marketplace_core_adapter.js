@@ -408,4 +408,37 @@ self.requestForLicenseUpdate = function (accessToken, offerId, hsmId, callback) 
     });
 };
 
+self.getObjectForId = function (accessToken, objectId, language, callback) {
+    if (typeof(callback) !== 'function') {
+
+        callback = function () {
+            logger.info('Callback not registered');
+        }
+    }
+
+    const options = buildOptionsForRequest(
+        'GET',
+        CONFIG.HOST_SETTINGS.MARKETPLACE_CORE.PROTOCOL,
+        CONFIG.HOST_SETTINGS.MARKETPLACE_CORE.HOST,
+        CONFIG.HOST_SETTINGS.MARKETPLACE_CORE.PORT,
+        `/technologydata/${objectId}`,
+        {
+            lang: language
+        }
+    );
+    options.headers.authorization = 'Bearer ' + accessToken;
+
+    request(options, function (e, r, jsonData) {
+
+        const err = logger.logRequestAndResponse(e, options, r, jsonData);
+
+        let tdmObject;
+        if (helper.isObject(jsonData)) {
+            tdmObject = mapper.mapObject(jsonData);
+        }
+
+        callback(err, tdmObject);
+    });
+};
+
 module.exports = self;

@@ -115,5 +115,14 @@ self.SaveObject_Body = {
     additionalProperties: false
 };
 
+self.GetSingleObject_Query  = {
+    type: 'object',
+    properties: {
+        lang: languageProperty
+    },
+    required:['lang'],
+    additionalProperties: false
+};
+
 
 module.exports = self;

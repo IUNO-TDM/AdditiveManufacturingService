@@ -31,6 +31,27 @@ router.get('/', validate({
     })
 });
 
+router.get('/:object_id', validate({
+    query: validation_schema.GetSingleObject_Query,
+    body: validation_schema.Empty
+}), function (req, res, next) {
+    const language = 'en'; //TODO: Remove this as soon as we do have german translations;
+
+    marketplaceCore.getObjectForId(req.token.accessToken, req.params['object_id'], language, (err, tdmObject) => {
+        if (err) {
+            next(err);
+            return;
+        }
+
+        if (!tdmObject || !Object.keys(tdmObject).length) {
+            return res.sendStatus(404);
+        }
+
+        res.json(tdmObject);
+    });
+});
+
+
 router.get('/:id/binary', validate({
     query: validation_schema.GetBinary_Query,
     body: validation_schema.Empty
