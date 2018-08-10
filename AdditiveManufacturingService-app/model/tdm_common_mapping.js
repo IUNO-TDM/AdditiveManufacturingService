@@ -5,6 +5,11 @@ const CONFIG = require('../config/config_loader');
 const self = {};
 
 self.mapComponent = function (json) {
+
+    if (!json) {
+        return null;
+    }
+
     let component = new tdmCommon.TdmComponent();
 
     component.name = json['componentname'];
@@ -20,6 +25,10 @@ self.mapComponent = function (json) {
 
 self.mapAttribute = function (json) {
 
+    if (!json) {
+        return null;
+    }
+
     const attribute = new tdmCommon.TdmAttribute();
     attribute.id = json['attributeuuid'];
     attribute.name = json['attributename'];
@@ -28,6 +37,10 @@ self.mapAttribute = function (json) {
 };
 
 self.mapObject = function (json) {
+
+    if (!json) {
+        return null;
+    }
 
     const tdmObject = new tdmCommon.TdmObjectPrinterObject();
 
@@ -55,6 +68,9 @@ self.mapObject = function (json) {
 
 self.mapUser = function (json) {
 
+    if (!json) {
+        return null;
+    }
 
     json.__proto__ = tdmCommon.TdmUser.prototype;
 
@@ -64,6 +80,9 @@ self.mapUser = function (json) {
 
 self.mapOffer = function (json) {
 
+    if (!json) {
+        return null;
+    }
     const tdmOffer = new tdmCommon.TdmPaymentOffer();
 
     tdmOffer.id = json['id'];
