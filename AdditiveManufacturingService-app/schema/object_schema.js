@@ -50,21 +50,12 @@ self.Object_Query = {
             },
             additionalItems: false
         },
+        purchased: {
+            type: 'boolean'
+        },
         lang: languageProperty
     },
     required: ['lang'],
-    additionalProperties: false
-};
-
-self.GetBinary_Query = {
-    type: 'object',
-    properties: {
-        offerId: {
-            type: 'string',
-            format: 'uuid'
-        }
-    },
-    required: ['offerId'],
     additionalProperties: false
 };
 

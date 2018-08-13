@@ -19,8 +19,9 @@ router.get('/', validate({
     const machines = req.query['machines'];
     const materials = req.query['materials'];
     const productCodes = req.query['productCodes'];
+    const purchased = req.query['purchased'];
 
-    marketplaceCore.getAllObjects(req.token['accessToken'], language, machines, materials, productCodes, (err, objects) => {
+    marketplaceCore.getAllObjects(req.token['accessToken'], language, machines, materials, productCodes, purchased, (err, objects) => {
 
         if (err) {
             return next(err);
@@ -53,7 +54,7 @@ router.get('/:object_id', validate({
 
 
 router.get('/:id/binary', validate({
-    query: validation_schema.GetBinary_Query,
+    query: validation_schema.Empty,
     body: validation_schema.Empty
 }), function (req, res, next) {
     marketplaceCore.downloadBinary(req.params['id'], req.query['offerId'], req, res, next);

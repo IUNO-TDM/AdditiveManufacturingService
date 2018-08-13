@@ -107,7 +107,7 @@ self.getAllMaterials = function (accessToken, language, callback) {
     });
 };
 
-self.getAllObjects = function (accessToken, language, machines, materials, productCodes, callback) {
+self.getAllObjects = function (accessToken, language, machines, materials, productCodes, onlyPurchased, callback) {
 
 
     if (typeof(callback) !== 'function') {
@@ -127,7 +127,8 @@ self.getAllObjects = function (accessToken, language, machines, materials, produ
             components: machines ? machines.concat(materials ? materials : []) : materials ? materials : [],
             lang: language,
             technology: CONFIG.TECHNOLOGY_UUID,
-            productCodes: productCodes
+            productCodes: productCodes,
+            purchased: onlyPurchased
         }
     );
 
@@ -369,7 +370,7 @@ self.downloadBinary = function (objectId, offerId, req, res, next) {
         CONFIG.HOST_SETTINGS.MARKETPLACE_CORE.PORT,
         `/technologydata/${objectId}/content`,
         {
-            offerId: offerId
+
         }
     );
     options.headers.authorization = 'Bearer ' + req.token['accessToken'];
