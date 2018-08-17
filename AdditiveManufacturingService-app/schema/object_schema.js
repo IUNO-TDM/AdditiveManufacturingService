@@ -99,7 +99,7 @@ self.SaveObject_Body = {
         },
         image: {
             type: 'string',
-            maxLength: 20000
+            maxLength: 100000
         }
     },
     required: ['title', 'encryptedKey', 'description', 'licenseFee', 'components'],
