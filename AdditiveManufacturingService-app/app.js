@@ -23,7 +23,7 @@ app.use('/objects/*/image', bodyParser.raw({
 }));
 
 app.use('/', bodyParser.json({
-    limit: '400kb'
+    limit: '10kb'
 }));
 
 app.use(queryParser);
