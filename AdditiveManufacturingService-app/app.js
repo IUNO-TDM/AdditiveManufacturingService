@@ -11,12 +11,21 @@ const app = express();
 
 app.use(logger('dev'));
 app.use('/', contentTypeValidation);
+
+
 app.use('/cmdongle', bodyParser.json({
     limit: '50mb'
 }));
+
+app.use('/objects/*/image', bodyParser.raw({
+    type: ['image/png', 'image/jpeg', 'image/svg+xml'],
+    limit: '1mb'
+}));
+
 app.use('/', bodyParser.json({
     limit: '10kb'
 }));
+
 app.use(queryParser);
 app.use(bodyParser.urlencoded({
     extended: false

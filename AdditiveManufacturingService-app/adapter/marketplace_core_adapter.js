@@ -216,6 +216,22 @@ self.getImageForObject = function (accessToken, objectid, callback) {
     });
 };
 
+self.updateImageForObject = function (objectId, req, res, next) {
+    const uri = `${CONFIG.HOST_SETTINGS.MARKETPLACE_CORE.PROTOCOL}://`
+        + `${CONFIG.HOST_SETTINGS.MARKETPLACE_CORE.HOST}:`
+        + `${CONFIG.HOST_SETTINGS.MARKETPLACE_CORE.PORT}/technologydata/`
+        + `${objectId}/image`;
+
+    req.pipe(
+        request(uri, (err, pipeResponse) => {
+            if (err) {
+                return next(err)
+            }
+
+            res.sendStatus(pipeResponse.statusCode);
+        }));
+};
+
 self.createOfferForRequest = function (accessToken, offerRequest, callback) {
     if (typeof(callback) !== 'function') {
 
@@ -369,9 +385,7 @@ self.downloadBinary = function (objectId, offerId, req, res, next) {
         CONFIG.HOST_SETTINGS.MARKETPLACE_CORE.HOST,
         CONFIG.HOST_SETTINGS.MARKETPLACE_CORE.PORT,
         `/technologydata/${objectId}/content`,
-        {
-
-        }
+        {}
     );
     options.headers.authorization = 'Bearer ' + req.token['accessToken'];
 

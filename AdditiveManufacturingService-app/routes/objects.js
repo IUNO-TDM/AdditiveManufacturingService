@@ -118,5 +118,10 @@ router.get('/:id/image', validate({
     });
 });
 
+router.put('/:id/image', validate({
+    query: validation_schema.Empty
+}), function (req, res, next) {
+    marketplaceCore.updateImageForObject(req.params['id'], req, res, next);
+});
 
 module.exports = router;
