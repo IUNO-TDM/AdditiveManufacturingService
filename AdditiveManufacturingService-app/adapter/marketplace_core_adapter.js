@@ -93,7 +93,7 @@ self.getAllMaterials = function (accessToken, language, callback) {
         if (jsonData) {
             materialComponents = jsonData.map(component => {
 
-                //TODO: Remove this later (when the core attributes are also returned from the core)
+                //TODO: Remove this later (when the  attributes are also returned from the core) #217
                 component['attributes'] = [{
                     attributeuuid: CONFIG.MATERIAL_ATR_UUID,
                     attributename: 'material'
