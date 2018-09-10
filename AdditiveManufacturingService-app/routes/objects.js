@@ -15,7 +15,7 @@ router.get('/', validate({
     query: validation_schema.Object_Query,
     body: validation_schema.Empty
 }), function (req, res, next) {
-    const language = 'en'; //TODO: Remove this as soon as we do have german translations;
+    const language = req.query['lang'];
     const machines = req.query['machines'];
     const materials = req.query['materials'];
     const productCodes = req.query['productCodes'];
@@ -36,7 +36,7 @@ router.get('/:object_id', validate({
     query: validation_schema.GetSingleObject_Query,
     body: validation_schema.Empty
 }), function (req, res, next) {
-    const language = 'en'; //TODO: Remove this as soon as we do have german translations;
+    const language = req.query['lang'];
 
     marketplaceCore.getObjectForId(req.token.accessToken, req.params['object_id'], language, (err, tdmObject) => {
         if (err) {

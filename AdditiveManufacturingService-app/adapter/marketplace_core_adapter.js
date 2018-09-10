@@ -63,7 +63,7 @@ self.getAllMachines = function (accessToken, language, callback) {
 
         let machineComponents;
 
-        if (jsonData) {
+        if (!err && jsonData) {
             machineComponents = jsonData.map(component => {
 
                 //TODO: Remove this later (when the core attributes are also returned from the core)
@@ -90,7 +90,7 @@ self.getAllMaterials = function (accessToken, language, callback) {
 
         let materialComponents;
 
-        if (jsonData) {
+        if (!err && jsonData) {
             materialComponents = jsonData.map(component => {
 
                 //TODO: Remove this later (when the  attributes are also returned from the core) #217
@@ -140,7 +140,7 @@ self.getAllObjects = function (accessToken, language, machines, materials, produ
 
         let objects;
 
-        if (jsonData) {
+        if (!err && jsonData) {
             objects = jsonData.map(tdmObject => {
                 return mapper.mapObject(tdmObject);
             });
